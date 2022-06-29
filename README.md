@@ -172,7 +172,7 @@ To start the program, you should run the `select_x_values.py` file, and pass in 
     The command above will start the program, select top 1,000,000 largest values from those `10100481` rows, and store their `unique_id` into `output.txt`.  
     You could also directly pass in the content of the data file as **stdin**：  
     ```
-    python select_x_values.py <X> < .\input_data\sample_data.txt  
+    python select_x_values.py <X> < <Absolute / Relative data file path>
     ```
     **E.g.**      
     ```
