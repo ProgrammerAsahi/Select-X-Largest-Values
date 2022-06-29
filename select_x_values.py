@@ -95,7 +95,7 @@ def processing_data(X: int, data):
             Total error rows: {1}\n \
             Total valid rows: {2}\n \
             Total chunks splitted: {3}\n \
-            Pre-defined Chunk size: {4}\n" \
+            Pre-defined chunk size: {4}\n" \
             .format(total_row_count, total_error_row_count, total_valid_row_count, chunk_id, chunk_size))
     heapify(heap)
     if X > total_valid_row_count:
@@ -115,7 +115,7 @@ def processing_data(X: int, data):
         while heap and output_row_count < X:
             curr_value, curr_unique_id, curr_chunk= heappop(heap)
             curr_value = 0 - curr_value
-            output.write(curr_unique_id + " " + str(curr_value) + "\n")
+            output.write(curr_unique_id + "\n")
             next_row = chunk_file_pointers[curr_chunk].readline()
             if not next_row:
                 chunk_file_pointers[curr_chunk].close()
