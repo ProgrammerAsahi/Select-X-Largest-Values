@@ -5,7 +5,7 @@ from os import mkdir
 
 report_times = 25
 
-def generate_sample_data(size: int, lower_bound: int, upper_bound: int, error_rate: float = 0.0):
+def generate_sample_data(size: int, lower_bound: int, upper_bound: int, error_rate: float = 0.0, data_file: str = "sample_data.txt"):
     global report_times
     curr_dir = dirname(realpath(__file__))
     save_dir = curr_dir + "/input_data/"
@@ -16,7 +16,7 @@ def generate_sample_data(size: int, lower_bound: int, upper_bound: int, error_ra
     error_row_count = 0
     if not exists(save_dir):
         mkdir(save_dir)
-    with open(save_dir + "sample_data.txt", "w", encoding="utf-8") as file:
+    with open(save_dir + data_file, "w", encoding="utf-8") as file:
         progress = 0.0
         print("Start to generate sample data. Progress: {0:.1%}".format(progress))
         for i in range(size):
@@ -59,4 +59,5 @@ def generate_error_field() -> str:
         error_field += ch
     return error_field
 
-generate_sample_data(10, -10, 10, 0.0)
+if __name__ == '__main__':
+    generate_sample_data(10, -10, 10, 0.0)

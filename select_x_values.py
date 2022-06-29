@@ -147,10 +147,6 @@ def processing_data(X: int, data):
     print("All chunk files closed. Program ended.")
 
     return
-    
-    
-    
-
 
 def write_chunk_data(chunk_file: str, chunk_data: list):
     curr_dir = dirname(realpath(__file__))
@@ -192,8 +188,8 @@ def is_hex_uuid(unique_id: str) -> bool:
     
     return True
     
-
-handle_inputs()
+if __name__ == '__main__':
+    handle_inputs()
     
         
     

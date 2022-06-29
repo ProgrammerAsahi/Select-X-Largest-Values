@@ -178,7 +178,7 @@ To start the program, you should run the `select_x_values.py` file, and pass in 
     ```
     python select_x_values.py 1000000 < .\input_data\sample_data.txt    
     ```
-    The above command work exactly the same as the previous command which using file path.  
+    The above command works exactly the same as the previous command which using the file path.  
 
     After running the command above, besides `output.txt`,there are also some related log outputs on the STDOUT console, which are as follows:  
     ```
@@ -237,6 +237,124 @@ To start the program, you should run the `select_x_values.py` file, and pass in 
     * When `X = 0`, the program will output an empty `output.txt` file  
     * When input data file is empty, the program will output an empty `output.txt` file as well.  
     * When there are no valid data in the input data file, the program will still output an empty `output.txt` file.  
-    * When either of the command line argument is invalid, the program could print an error log and end successfully.
+    * When either of the command line argument is invalid, or there is not enough arguments passed in, the program could print an error log and end successfully.
 
+## Test the Project  
+### Unit Test
+Unit tests are covered for all the functions in both `select_x_values.py` and `generate_sample_data.py`.  
+1. Test Files  
 
+| Unit Test Files | Description |  
+| :---: | :---: |
+| `test_generate_sample_data.py`| Aimed for testing all the functions in `generate_sample_data.py`|  
+| `test_select_x_values.py`| Aimed for testing all the functions in `select_x_values.py`|  
+
+2. Test Cases  
+
+* `test_generate_sample_data.py`  
+
+| No. | Target Function | Valid Input? | Description |  
+| --- | --- | --- | --- |  
+| 1 | `generate_error_field()` | Yes | Test whether the target function could generate an invalid data filed | 
+| 2 | `generate_error_data()` | Yes | Test whether the target function could generate an invalid data row |  
+| 3 | `generate_sample_data()` | Yes | Test whether the target function could generate a valid data file, and each row is valid |  
+
+* `test_select_x_values.py`  
+
+| No. | Target Function | Valid Input? | Description |  
+| --- | --- | --- | --- |  
+| 1 | `handle_inputs()` & `processing_data()` | Yes | Test whether the target function could properly handle the inputs from the data file and correctly output the results | 
+| 2 | `is_valid_data()` | Yes | Test whether the target function could correctly classify a valid row of data |  
+| 3 | `is_valid_data()` | No | Test whether the target function could correctly classify an invalid row of data |   
+| 4 | `is_integer()` | Yes | Test whether the target function could correctly classify a valid integer string |  
+| 5 | `is_integer()` | No | Test whether the target function could correctly classify an invalid integer string |  
+| 6 | `is_hex_uuid()` | Yes | Test whether the target function could correctly classify a valid unique_id |  
+| 7 | `is_hex_uuid()` | No | Test whether the target function could correctly classify an invalid unique_id|  
+ 
+* Test Running  
+    * Run `test_generate_sample_data.py`  
+    Run the following command line your Terminal App:  
+    ```
+    python test_generate_sample_data.py
+    ```  
+    You should get the following results:  
+    ```
+    ..Start to generate sample data. Progress: 0.0%
+    Complete generating sample data. Progress: 100.0%
+
+    Total rows: 5
+    Error rows: 0
+    Valid rows: 5
+
+    .
+    ----------------------------------------------------------------------
+    Ran 3 tests in 0.010s
+
+    OK
+
+    ```  
+    * Run `test_select_x_values.py`  
+    Run the following command line your Terminal App:  
+    ```
+    python test_select_x_values.py
+    ```  
+    You should get the following results:  
+    ```
+    Progress: Have scanned 10 rows of data; have created 1 data chunks.
+
+    Data scanning complete.
+                Total rows: 10
+                Total error rows: 0
+                Total valid rows: 10
+                Total chunks splitted: 1
+                Pre-defined chunk size: 1000000
+
+    Start to output data. Progress: 0.0%
+    Complete outputting data. Progress: 100.0%
+
+    Data processing complete. Total output rows: 3. Please check the output.txt file to view the results.
+
+    There are 1 chunk file(s) remained open. Try to close them.
+    All chunk files closed. Program ended.
+    ......
+    ----------------------------------------------------------------------
+    Ran 6 tests in 0.061s
+
+    OK
+
+    ```  
+### Manual Test  
+To further test the reliability of the program, the following manual tests were conducted:  
+* Test `generate_sample_data.py`  
+
+| No. | Inputs | Output as Expected? |  
+| --- | --- | --- |  
+| 1 | `generate_sample_data(10, -10, 10, 0.2)` | Yes |  
+| 2 | `generate_sample_data(1, 0, 1, 0.0)` | Yes |  
+| 3 | `generate_sample_data(0, -1, 1, 0.0)` | Yes |  
+| 4 | `generate_sample_data(100, 1, 1, 0.0)` | Yes |  
+| 5 | `generate_sample_data(100, -10, 10, 1.0)` | Yes |   
+| 6 | `generate_sample_data(10000000, -10000000, 10000000, 0.01)` | Yes |  
+| 7 | `generate_sample_data(50000000, -100000000, 100000000, 0.2)` | Yes |  
+
+* Test `select_x_values.py`  
+
+| No. | X | Data File | Chunk Size | Output as Expected? |  
+| --- | --- | --- | --- | --- |  
+| 1 | 1 | 100 valid rows | 1000 | Yes |  
+| 2 | 5 | 10 valid rows | 2 | Yes |  
+| 3 | 11 | 10 valid rows | 2 | Yes |  
+| 4 | 20 | 100 valid rows | 1 | Yes |  
+| 5 | 0 | 100 valid rows | 10 | Yes |    
+| 6 | 10 | 0 rows | 10 | Yes |  
+| 7 | 10 | 0 valid rows + 10 error rows | 10 | Yes |  
+| 8 | N / A | N / A | 100 | Yes |
+| 9 | 10 | N / A | 100 | Yes |  
+| 10 | N / A | 10 rows | 100 | Yes |  
+| 11 | 1000000 | 10000000 valid rows + 100481 error rows | 1000000 | Yes |  
+| 12 | 10 | 10000000 valid rows + 300256 error rows | 2000000 | Yes |  
+| 13 | 50000001 | 50000000 valid rows | 5000000 | Yes |  
+| 14 | 1 | 30000000 valid rows | 600000 | Yes |  
+| 15 | 8000000 | 100000000 valid rows + 50000000 error rows | 5000000 | Yes |  
+
+You've reached the end of this doc, wish you could have fun!
