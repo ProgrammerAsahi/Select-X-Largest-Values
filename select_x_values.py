@@ -88,6 +88,7 @@ def processing_data(X: int, data):
             curr_pointer.readline()
             chunk_file_pointers.append(curr_pointer)
             # Add the first element of the chunk file into heap
+            # Python 3 only supports min heap, in order to achieve max heap, we should store the opposite number of the value here
             heap.append((0 - first_value, first_id, chunk_id))
             # Release the space in memory
             curr_chunk_data.clear()
@@ -107,7 +108,6 @@ def processing_data(X: int, data):
         curr_pointer = open(chunk_file, "r", encoding="utf-8")
         curr_pointer.readline()
         chunk_file_pointers.append(curr_pointer)
-        # Python 3 only supports min heap, in order to achieve max heap, we should store the opposite number of the value here
         heap.append((0 - first_value, first_id, chunk_id))
         curr_chunk_data.clear()
         curr_chunk_row_count = 0
